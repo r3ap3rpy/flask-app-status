@@ -1,0 +1,69 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<link type="text/css" rel="stylesheet" href="{{ url_for('static',filename='css/apps.css') }}">
+<title>App Info</title>
+<div class="topnav" id="myTopnav">
+	<a {% if appactive is defined %}{{ 'class=active' }}{% endif %} href="/">Applications</a>
+</div>
+
+</head>
+
+<body>
+	{% if Applications | length > 0 %}
+		{% if FilteredBy is defined %}
+			<H2>Here is the list of apps filtered by state: {{ FilteredBy }}</H2>
+		{% else %}
+		 <div id="content">
+            <H2>Below is a list of application states which were recorded by the apps themselves checking in!</H2>
+            <H2>Allowed states: </H2>
+            <ul>
+            	{% for state in AllowedStates %}
+            		<li><a href="/apps/{{ state }}" target="_blank">{{ state }}</a></li>
+            	{% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+		<div id='outagetables' >
+			<table width="100%">
+		            <thead>
+		                <tr>
+		                        <th><h2>Application</h2></th>
+		                        <th><h2>Status</h2></th>
+		                        <th><h2>Exception</h2></th>
+								<th><h2>Date</h2></th>
+		                </tr>
+		        </thead>
+		        <tbody>
+		            {% for app in Applications %}
+		            <tr>
+		            	<td title="{{ Applications[app]['description'] }}">{{ app }}</a></td>
+		                <td>{{ Applications[app]['status'] }}</td>
+		                <td>{{ Applications[app]['exception'] }}</td>
+		                <td>{{ Applications[app]['date'] }}</td>
+		            </tr>
+		            {% endfor %}
+		        </tbody>
+		    </table>
+		</div>
+	{% else %}
+
+		<div class="bs-callout bs-callout-danger">
+ 		 <h4>Error: <a>Currently there are no application status-es available, this can happen due to an empty database, or first startup of the application!</a></h4>
+		</div>
+	{% endif %}
+
+</body>
+
+
+<div id='spacing'>
+	</div>
+	<div id="footer">
+		<p>This is a demonstration site for the app status!</p>
+	</div>
+
+
+</html>
